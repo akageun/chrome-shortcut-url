@@ -1,0 +1,21 @@
+{
+  "name": "Alias Url",
+  "description": "Alias Url ",
+  "version": "0.0.1",
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "options_page": "options.html",
+  "omnibox": {
+    "keyword": "as"
+  },
+  "manifest_version": 2
+}
+
