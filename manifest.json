@@ -5,6 +5,7 @@
   "background": {
     "persistent": false,
     "scripts": [
+      "src/fuse.js",
       "background.js"
     ]
   },
@@ -12,6 +13,7 @@
     "tabs",
     "storage"
   ],
+  "content_security_policy": "script-src 'self' object-src 'self'",
   "options_page": "options.html",
   "omnibox": {
     "keyword": "as"
