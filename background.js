@@ -1,15 +1,20 @@
 function changeEventOmnibox(query, suggest) {
 
-    var fuse = new Fuse(getJsonList(), getFuseOptions()); // "list" is the item array
-    var result = fuse.search(query);
+    chrome.storage.local.get('json', function (res) {
+        console.log('res : ', res.json);
 
-    var suggestArr = [];
-    for (var i = 0; i < result.length; i++) {
-        var res = result[i];
-        suggestArr.push({content: res.url, description: "<dim>[" + res.alias + "]</dim> " + res.name});
-    }
+        var fuse = new Fuse(res.json, getFuseOptions()); // "list" is the item array
+        var result = fuse.search(query);
 
-    suggest(suggestArr);
+        var suggestArr = [];
+        for (var i = 0; i < result.length; i++) {
+            var res = result[i];
+            suggestArr.push({content: res.url, description: "<dim>[" + res.alias + "]</dim> " + res.name});
+        }
+
+        suggest(suggestArr);
+    });
+
 }
 
 function selectEventOmnibox(url) {

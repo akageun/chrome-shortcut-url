@@ -3,126 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title>Options</title>
-    <style>
-        * {
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        #wrap {
-            height: inherit;
-        }
-
-        #inputForm {
-            height: 250px;
-        }
-
-        #resultList {
-            height: calc(100% - 250px);
-        }
-
-        #resultList, #inputForm {
-            padding: 20px;
-        }
-
-        #frm {
-            margin: 0 auto;
-            width: 900px;
-            padding: 1em;
-            /*border: 1px solid #CCC;*/
-            /*border-radius: 0.5em;*/
-        }
-
-        #frm div + div {
-            margin-top: 1em;
-        }
-
-        #frm fieldset {
-            box-sizing: border-box;
-            border: 1px solid #999;
-            border-radius: 0.9em;
-        }
-
-        #resultTable {
-            margin: 0 auto;
-            width: 100%;
-            padding: 1em;
-        }
-    </style>
+    <link rel="stylesheet" href="./src/css/common.css"/>
 </head>
 <body>
-
-<div id="wrap">
-    <div id="inputForm">
-        <form id="frm">
-            <h1>Payment form</h1>
-            <!--<p>Required fields are followed by <strong><abbr title="required">*</abbr></strong>.</p>-->
-            <fieldset>
-                <legend>Title</legend>
-                                 
-                <div>
-                    <label for="title_1">
-                        Name
-                        <input type="text" id="title_1" name="name" placeholder="Entered Name">
-
-                    </label>
-                </div>
-                <div>
-                    <label for="title_2">
-                        Alias
-                        <input type="text" id="title_2" name="alias" placeholder="Entered Alias">
-                    </label>
-                </div>
-                <div>
-                    <label for="title_3">
-                        URL
-                        <input type="text" id="title_3" name="url" placeholder="Entered URL">
-                    </label>
-                </div>
-                <div style="width: 100%; text-align: right;">
-                    <button id="saveBtn">SAVE</button>
-                </div>
-            </fieldset>
-                   
-        </form>
-    </div>
-    <div id="resultList">
-        <table id="resultTable">
+<h2>Add Form</h2>
+<p>Description</p>
+<div class="container">
+    <form class="add_form">
+        <table>
+            <colgroup>
+                <col width="15%"/>
+                <col width="15%"/>
+                <col width="*"/>
+                <col width="15%"/>
+            </colgroup>
             <thead>
             <tr>
-                <th>Index</th>
                 <th>Name</th>
                 <th>Alias</th>
                 <th>URL</th>
-                <th>Function</th>
+                <th>Functions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="tableResult">
             <tr>
-                <th>1</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="text-center">
+                    <input type="text" name="name" placeholder="Enter url Name"/>
+                </td>
+                <td class="text-center">
+                    <input type="text" name="alias" placeholder="Enter alias"/>
+                </td>
+                <td>
+                    <input type="text" name="url" placeholder="Enter url"/>
+                </td>
+                <td class="text-center">
+                    <a>Go</a>
+                    <button>Modify</button>
+                    <button>Delete</button>
+                </td>
             </tr>
             <tr>
-                <th>2</th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="text-center">
+                    <input type="text" name="name" placeholder="Enter url Name"/>
+                </td>
+                <td class="text-center">
+                    <input type="text" name="alias" placeholder="Enter alias"/>
+                </td>
+                <td>
+                    <input type="text" name="url" placeholder="Enter url"/>
+                </td>
+                <td class="text-center">
+                    <a>Go</a>
+                    <button>Modify</button>
+                    <button>Delete</button>
+                </td>
             </tr>
             </tbody>
         </table>
-    </div>
+        <div class="row">
+            <button id="saveBtn">SAVE</button>
+        </div>
+    </form>
 </div>
+
+<script src="./src/js/common.js"></script>
 <script src="options.js"></script>
 </body>
 </html>
