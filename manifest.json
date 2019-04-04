@@ -16,7 +16,8 @@
   },
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "downloads"
   ],
   "content_security_policy": "script-src 'self'; default-src 'self'",
   "web_accessible_resources": [

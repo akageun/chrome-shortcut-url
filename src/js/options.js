@@ -1,6 +1,8 @@
 (function () {
     addSaveBtnEvent();
     newLineBtnEvent();
+    importJsonBtnEvent();
+    exportJsonBtnEvet();
 
     var resultEle = document.getElementById('tableResult');
     chrome.storage.local.get('json', function (res) {
@@ -16,8 +18,37 @@
 
     });
 
-
 })();
+
+
+function importJsonBtnEvent() {
+
+}
+
+function exportJsonBtnEvet() {
+    document.getElementById('exportJson').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        chrome.storage.local.get('json', function (res) {
+            if (!res.json) {
+                showMessage('등록된 데이터가 없습니다.');
+                return;
+            }
+
+            var fileName = "shortcut_url_" + new Date().getTime() + ".json";
+            var result = JSON.stringify(res.json);
+
+            // Save as file
+            var url = 'data:application/json;base64,' + btoa(result);
+            chrome.downloads.download({
+                url: url,
+                filename: fileName
+            });
+        });
+
+        //
+    });
+}
 
 function addSaveBtnEvent() {
     document.getElementById('saveBtn').addEventListener('click', function (e) {

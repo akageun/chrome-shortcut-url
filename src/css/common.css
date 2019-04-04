@@ -38,6 +38,10 @@
     padding: 6px 10px;
 }
 
+.btn-medium {
+    padding: 10px 14px;
+}
+
 .btn-green {
     background-color: #4CAF50;
     color: white;
