@@ -21,41 +21,6 @@ function selectEventOmnibox(url) {
     chrome.tabs.update({url: url});
 }
 
-function getJsonList() {
-    return [
-        {
-            "alias": "n",
-            "name": "naver",
-            "url": "https://naver.com"
-        },
-        {
-            "alias": "n w",
-            "name": "Naver webtoon",
-            "url": "https://comic.naver.com/index.nhn"
-        },
-        {
-            "alias": "n t",
-            "name": "네이버 TV",
-            "url": "https://tv.naver.com/"
-        },
-        {
-            "alias": "g",
-            "name": "google",
-            "url": "https://google.com"
-        },
-        {
-            "alias": "g m",
-            "name": "gmail",
-            "url": "https://mail.google.com/mail/u/0/?tab=rm"
-        },
-        {
-            "alias": "g d",
-            "name": "Google Drive",
-            "url": "https://drive.google.com/drive/u/0/my-drive"
-        }
-    ]
-}
-
 function getFuseOptions() {
     return {
         shouldSort: true,

@@ -1,1 +1,1 @@
-# Alias Url
+# Shortcut Url

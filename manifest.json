@@ -1,13 +1,12 @@
 {
-  "name": "Alias Url",
-  "description": "Alias Url ",
+  "name": "Shortcut URL",
+  "description": "Shortcut url",
   "version": "0.0.1",
   "background": {
     "persistent": false,
     "scripts": [
       "src/js/lib/fuse.js",
-      "src/js/common.js",
-      "background.js"
+      "src/js/background.js"
     ]
   },
   "icons": {
@@ -23,7 +22,7 @@
   "web_accessible_resources": [
     "src/css/*.css"
   ],
-  "options_page": "options.html",
+  "options_page": "src/views/options.html",
   "omnibox": {
     "keyword": "as"
   },
