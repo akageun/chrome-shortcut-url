@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Options</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="./src/css/common.css"/>
 </head>
 <body>
 <h2>Add Form</h2>
 <p>Description</p>
 <div class="container">
-    <form class="add_form">
+    <form class="add_form" onsubmit="return false;">
         <table>
             <colgroup>
                 <col width="15%"/>
@@ -26,46 +27,16 @@
             </tr>
             </thead>
             <tbody id="tableResult">
-            <tr>
-                <td class="text-center">
-                    <input type="text" name="name" placeholder="Enter url Name"/>
-                </td>
-                <td class="text-center">
-                    <input type="text" name="alias" placeholder="Enter alias"/>
-                </td>
-                <td>
-                    <input type="text" name="url" placeholder="Enter url"/>
-                </td>
-                <td class="text-center">
-                    <a>Go</a>
-                    <button>Modify</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">
-                    <input type="text" name="name" placeholder="Enter url Name"/>
-                </td>
-                <td class="text-center">
-                    <input type="text" name="alias" placeholder="Enter alias"/>
-                </td>
-                <td>
-                    <input type="text" name="url" placeholder="Enter url"/>
-                </td>
-                <td class="text-center">
-                    <a>Go</a>
-                    <button>Modify</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
             </tbody>
         </table>
+        <br>
         <div class="row">
-            <button id="saveBtn">SAVE</button>
+            <button id="saveBtn" class="btn btn-green btn-full float-right">SAVE</button>
+            <button id="newLineBtn" class="btn btn-green btn-full float-right mr-1">New Line</button>
         </div>
     </form>
 </div>
-
+<div id="snackbar"></div>
 <script src="./src/js/common.js"></script>
 <script src="options.js"></script>
 </body>
