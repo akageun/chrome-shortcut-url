@@ -1,8 +1,6 @@
 function changeEventOmnibox(query, suggest) {
 
     chrome.storage.local.get('json', function (res) {
-        console.log('res : ', res.json);
-
         var fuse = new Fuse(res.json, getFuseOptions()); // "list" is the item array
         var result = fuse.search(query);
 
