@@ -10,6 +10,11 @@
       "background.js"
     ]
   },
+  "icons": {
+    "16": "src/img/icon-16.png",
+    "48": "src/img/icon-48.png",
+    "128": "src/img/icon-128.png"
+  },
   "permissions": [
     "tabs",
     "storage"
