@@ -4,6 +4,8 @@
     importJsonBtnEvent();
     exportJsonBtnEvet();
 
+    clearBtnEvent();
+
     var resultEle = document.getElementById('tableResult');
     chrome.storage.local.get('json', function (res) {
         if (!res.json) {
@@ -20,6 +22,16 @@
 
 })();
 
+function clearBtnEvent() {
+    document.getElementById('clearBtn').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (confirm('저장된 데이터를 전체 삭제하시겠습니까?')) {
+            chrome.storage.local.set({'json': null});
+            window.location.reload();
+        }
+    });
+}
 
 function importJsonBtnEvent() {
 
