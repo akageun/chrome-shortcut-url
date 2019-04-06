@@ -5,6 +5,7 @@
   "background": {
     "persistent": false,
     "scripts": [
+      "src/js/common.js",
       "src/js/lib/fuse.js",
       "src/js/background.js"
     ]

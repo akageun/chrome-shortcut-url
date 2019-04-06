@@ -7,18 +7,19 @@
     clearBtnEvent();
 
     var resultEle = document.getElementById('tableResult');
-    chrome.storage.local.get('json', function (res) {
-        if (!res.json) {
-            resultEle.appendChild(appendTr());
-            return;
-        }
 
-        for (var i = 0; i < res.json.length; i++) {
-            var data = res.json[i];
-            resultEle.appendChild(appendTr(data.name, data.alias, data.url));
-        }
+    var cmnFunc = new CmnFunc();
+    var res = cmnFunc.getLocalItem('json');
+    if (!res.json) {
+        resultEle.appendChild(appendTr());
+        return;
+    }
 
-    });
+    for (var i = 0; i < res.json.length; i++) {
+        var data = res.json[i];
+        resultEle.appendChild(appendTr(data.name, data.alias, data.url));
+    }
+
 
 })();
 
@@ -27,7 +28,7 @@ function clearBtnEvent() {
         e.preventDefault();
 
         if (confirm('저장된 데이터를 전체 삭제하시겠습니까?')) {
-            chrome.storage.local.set({'json': null});
+            new CmnFunc().setLocalItem('json', null);
             window.location.reload();
         }
     });
@@ -41,24 +42,24 @@ function exportJsonBtnEvet() {
     document.getElementById('exportJson').addEventListener('click', function (e) {
         e.preventDefault();
 
-        chrome.storage.local.get('json', function (res) {
-            if (!res.json) {
-                showMessage('등록된 데이터가 없습니다.');
-                return;
-            }
+        var cmnFunc = new CmnFunc();
+        var res = cmnFunc.getLocalItem('json');
 
-            var fileName = "shortcut_url_" + new Date().getTime() + ".json";
-            var result = JSON.stringify(res.json);
+        if (!res.json) {
+            showMessage('등록된 데이터가 없습니다.');
+            return;
+        }
 
-            // Save as file
-            var url = 'data:application/json;base64,' + btoa(result);
-            chrome.downloads.download({
-                url: url,
-                filename: fileName
-            });
+        var fileName = "shortcut_url_" + new Date().getTime() + ".json";
+        var result = JSON.stringify(res.json);
+
+        // Save as file
+        var url = 'data:application/json;base64,' + btoa(result);
+        chrome.downloads.download({
+            url: url,
+            filename: fileName
         });
 
-        //
     });
 }
 
