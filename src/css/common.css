@@ -8,6 +8,9 @@
     padding: 20px;
 }
 
+#importRow {
+    display: none;
+}
 
 .add_form input[type=text] {
     width: 100%;

@@ -4,6 +4,7 @@ var CmnFunc = function () {
         return new Promise(function (resoluve, reject) {
 
             chrome.storage.local.get(targetKey, function (res) {
+                console.log("res!! ", res);
                 resoluve(res);
             });
 
@@ -11,11 +12,7 @@ var CmnFunc = function () {
     };
 
     this.setLocalItem = function (targetKey, targetData) {
-        return new Promise(function (resoluve, reject) {
-
-            chrome.storage.local.set({targetKey: targetData});
-            resoluve('success')
-        });
+        chrome.storage.local.set({targetKey: targetData});
     };
 
     this.getFuseOptions = function () {
@@ -34,3 +31,4 @@ var CmnFunc = function () {
         };
     }
 };
+

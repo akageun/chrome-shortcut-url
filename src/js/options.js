@@ -3,22 +3,25 @@
     newLineBtnEvent();
     importJsonBtnEvent();
     exportJsonBtnEvet();
-
     clearBtnEvent();
 
     var resultEle = document.getElementById('tableResult');
 
     var cmnFunc = new CmnFunc();
-    var res = cmnFunc.getLocalItem('json');
-    if (!res.json) {
-        resultEle.appendChild(appendTr());
-        return;
-    }
+    cmnFunc.getLocalItem('json')
+        .then(function (res) {
+            console.log('res : ', res.json);
 
-    for (var i = 0; i < res.json.length; i++) {
-        var data = res.json[i];
-        resultEle.appendChild(appendTr(data.name, data.alias, data.url));
-    }
+            if (!res.json) {
+                resultEle.appendChild(appendTr());
+                return;
+            }
+
+            for (var i = 0; i < res.json.length; i++) {
+                var data = res.json[i];
+                resultEle.appendChild(appendTr(data.name, data.alias, data.url));
+            }
+        });
 
 
 })();
@@ -28,14 +31,38 @@ function clearBtnEvent() {
         e.preventDefault();
 
         if (confirm('저장된 데이터를 전체 삭제하시겠습니까?')) {
-            new CmnFunc().setLocalItem('json', null);
+
+            chrome.storage.local.clear(function () {
+                var error = chrome.runtime.lastError;
+                if (error) {
+                    console.error(error);
+                }
+            });
+
             window.location.reload();
         }
     });
 }
 
 function importJsonBtnEvent() {
+    document.getElementById('importJsonOpen').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('importRow').style.display = 'block';
+    });
 
+    document.getElementById('importJson').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        var file = document.getElementById("importFileInput").files[0];
+        var reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function (e) {
+
+            console.log('res : ', JSON.parse(e.target.result));
+
+            chrome.storage.local.set({'json': JSON.parse(e.target.result)});
+        };
+    });
 }
 
 function exportJsonBtnEvet() {
@@ -43,22 +70,25 @@ function exportJsonBtnEvet() {
         e.preventDefault();
 
         var cmnFunc = new CmnFunc();
-        var res = cmnFunc.getLocalItem('json');
+        cmnFunc.getLocalItem('json')
+            .then(function (res) {
 
-        if (!res.json) {
-            showMessage('등록된 데이터가 없습니다.');
-            return;
-        }
+                if (!res.json) {
+                    showMessage('등록된 데이터가 없습니다.');
+                    return;
+                }
 
-        var fileName = "shortcut_url_" + new Date().getTime() + ".json";
-        var result = JSON.stringify(res.json);
+                var fileName = "shortcut_url_" + new Date().getTime() + ".json";
+                var result = JSON.stringify(res.json);
 
-        // Save as file
-        var url = 'data:application/json;base64,' + btoa(result);
-        chrome.downloads.download({
-            url: url,
-            filename: fileName
-        });
+                // Save as file
+                var url = 'data:application/json;base64,' + btoa(result);
+                chrome.downloads.download({
+                    url: url,
+                    filename: fileName
+                });
+            });
+
 
     });
 }
