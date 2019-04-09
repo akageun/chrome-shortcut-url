@@ -1,0 +1,30 @@
+{
+  "name": "shortcut-url",
+  "description": "...",
+  "homepage_url": "https://github.com/akageun/chrome-shortcut-url",
+  "version": null,
+  "manifest_version": 2,
+  "icons": {
+    "16": "resources/img/icons/icon-16.png",
+    "48": "resources/img/icons/icon-48.png",
+    "128": "resources/img/icons/icon-128.png"
+  },
+  "omnibox": {
+    "keyword": "as"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "downloads"
+  ],
+  "browser_action": {
+    "default_title": "chrome-shortcut-url",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "options_page": "options/options.html"
+}
