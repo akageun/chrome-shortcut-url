@@ -68,7 +68,11 @@
                 commonUtil
                     .getLocalItem('json')
                     .then((res) => {
-                        this.aliasList = res.json;
+                        if (res.json) {
+                            this.aliasList = res.json;
+                        } else {
+                            this.aliasList.push({});
+                        }
                     });
             },
             newLine() {
