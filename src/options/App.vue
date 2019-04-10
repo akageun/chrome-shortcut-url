@@ -47,8 +47,8 @@
 </template>
 
 <script>
-    import commonUtil from '../common/js/commonUtil';
-    import resultRowData from '../common/components/resultRowData'
+    import commonUtil from '@/common/js/commonUtil';
+    import resultRowData from '@/common/components/resultRowData'
 
     export default {
         name: "App",

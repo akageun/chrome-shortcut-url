@@ -5,21 +5,25 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
 const {VueLoaderPlugin} = require('vue-loader');
 const {version} = require('./package.json');
+const path = require('path');
 
 const config = {
     mode: process.env.NODE_ENV,
-    context: __dirname + '/src',
+    context: path.join(__dirname, '/src'),
     entry: {
         'background': './background.js',
         'popup/popup': './popup/popup.js',
         'options/options': './options/options.js',
     },
     output: {
-        path: __dirname + '/dist',
+        path: path.join(__dirname, '/dist'),
         filename: '[name].js',
     },
     resolve: {
         extensions: ['.js', '.vue'],
+        alias: {
+            '@': path.join(__dirname, '/src'),
+        }
     },
     module: {
         rules: [
