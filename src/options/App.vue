@@ -15,7 +15,7 @@
             <div class="col">
                 <div class="btn-group float-right pb-1">
                     <button class="btn btn-secondary btn-sm" @click="clearData()">CLEAR</button>
-                    <button class="btn btn-secondary btn-sm">IMPORT</button>
+                    <button class="btn btn-secondary btn-sm" @click="importJson($event)">IMPORT</button>
                     <button class="btn btn-secondary btn-sm" @click="exportJson($event)">EXPORT</button>
                 </div>
                 <table class="table">
@@ -48,7 +48,7 @@
 
 <script>
     import commonUtil from '@/common/js/commonUtil';
-    import resultRowData from '@/common/components/resultRowData'
+    import resultRowData from '@/common/components/resultRowData';
 
     export default {
         name: "App",
