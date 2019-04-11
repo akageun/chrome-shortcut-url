@@ -12,6 +12,7 @@
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
   },
   "dependencies": {
+    "vuedraggable": "^2.20.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "fuse.js": "^3.4.4",

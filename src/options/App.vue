@@ -1,24 +1,13 @@
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col">
                 <div class="btn-group float-right pb-1">
                     <button class="btn btn-secondary btn-sm" @click="clearData()">CLEAR</button>
-                    <button class="btn btn-secondary btn-sm" @click="importJson($event)">IMPORT</button>
+                    <button class="btn btn-secondary btn-sm" @click="importJsonModalOpen($event)">IMPORT</button>
                     <button class="btn btn-secondary btn-sm" @click="exportJson($event)">EXPORT</button>
                 </div>
-                <table class="table">
+                <table class="table table-sm">
                     <thead>
                     <tr>
                         <th style="text-align: center;">Name</th>
@@ -27,11 +16,23 @@
                         <th style="text-align: center;">Functions</th>
                     </tr>
                     </thead>
-                    <tbody id="tableResult">
-                    <template v-for="item in aliasList">
-                        <result-row-data :name="item.name" :url="item.url" :alias="item.alias"></result-row-data>
-                    </template>
-                    </tbody>
+                    <draggable id="tableResult" element="tbody" v-model="aliasList">
+                        <tr class="dragndrop" v-for="item in aliasList">
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control form-control-sm" name="name" :value="item.name"/>
+                            </td>
+                            <td style="text-align: center;">
+                                <input type="text" class="form-control form-control-sm" name="alias" :value="item.alias"/>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control form-control-sm" name="url" :value="item.url"/>
+                            </td>
+                            <td style="text-align: center;">
+                                <button class="btn btn-warning btn-sm" @click="deleteRow($event)">DELETE</button>
+                                <button class="btn btn-warning btn-sm" @click="goUrl($event)">Go</button>
+                            </td>
+                        </tr>
+                    </draggable>
                 </table>
             </div>
         </div>
@@ -43,17 +44,40 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Import</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="file" class="form-control form-control-file" id="importFileInput"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" @click="importJson($event)">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import commonUtil from '@/common/js/commonUtil';
-    import resultRowData from '@/common/components/resultRowData';
+    import draggable from "vuedraggable";
 
     export default {
         name: "App",
         components: {
-            'result-row-data': resultRowData
+            draggable
         },
         data() {
             return {
@@ -141,7 +165,37 @@
                         });
                     });
             },
+            deleteRow(e) {
+                const resultEle = document.getElementById('tableResult');
+                resultEle.removeChild(e.currentTarget.parentNode.parentNode);
+
+                alert('Delete Line');
+            },
+            goUrl(e) {
+                const url = e.currentTarget.parentNode.parentNode.querySelector("[name='url']").value;
+                if (!url) {
+                    alert('Url Empty!');
+                    return;
+                }
+
+                chrome.tabs.create({url: url}); //new Tabs
+            },
+            importJsonModalOpen(e) {
+                e.preventDefault();
+                $("#importModal").modal({backdrop: 'static'});
+            },
             importJson(e) {
+                e.preventDefault();
+
+                const file = document.getElementById("importFileInput").files[0];
+                const reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = function (e) {
+                    chrome.storage.local.set({'json': JSON.parse(e.target.result)});
+                    window.location.reload();
+                };
+
+                $("#importModal").modal('hide');
 
             }
         }
