@@ -8,26 +8,26 @@
                 </div>
             </div>
         </div>
-        <div class="row  no-gutters">
-            <table class="table table-sm table-bordered">
+        <div class="row no-gutters mt-2">
+            <table class="table table-sm table-fixed table-bordered">
                 <thead>
                 <tr>
-                    <th>
+                    <th class="col-sm-3">
                         NAME
                     </th>
-                    <th>
+                    <th class="col-sm-3">
                         ALIAS
                     </th>
-                    <th>
+                    <th class="col-sm-6">
                         URL
                     </th>
                 </tr>
                 </thead>
                 <tbody style="max-height: 600px; overflow-y: auto;">
                 <tr v-for="item in aliasList">
-                    <td>{{item.name}}</td>
-                    <td>{{item.alias}}</td>
-                    <td>
+                    <td class="col-sm-3">{{item.name}}</td>
+                    <td class="col-sm-3">{{item.alias}}</td>
+                    <td class="col-sm-6">
                         <a @click="goUrl($event, item.url)" href="#">{{item.url}}</a>
                     </td>
                 </tr>
@@ -83,5 +83,28 @@
         max-height: 100%;
         position: relative;
         vertical-align: middle;
+    }
+
+    .table-fixed {
+        width: 100%;
+        background-color: #f3f3f3;
+    }
+
+    .table-fixed tbody {
+        height: 400px;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    .table-fixed thead, tbody, tr, td, th {
+        display: block;
+    }
+
+    .table-fixed tbody td {
+        float: left;
+    }
+
+    .table-fixed thead tr th {
+        float: left;
     }
 </style>

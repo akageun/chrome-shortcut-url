@@ -7,40 +7,50 @@
                     <button class="btn btn-secondary btn-sm" @click="importJsonModalOpen($event)">IMPORT</button>
                     <button class="btn btn-secondary btn-sm" @click="exportJson($event)">EXPORT</button>
                 </div>
-                <table class="table table-sm">
-                    <thead>
-                    <tr>
-                        <th style="text-align: center;">Name</th>
-                        <th style="text-align: center;">Shortcut</th>
-                        <th style="text-align: center;">URL</th>
-                        <th style="text-align: center;">Functions</th>
-                    </tr>
-                    </thead>
-                    <draggable id="tableResult" element="tbody" v-model="aliasList">
-                        <tr class="dragndrop" v-for="item in aliasList">
-                            <td style="text-align: center;">
-                                <input type="text" class="form-control form-control-sm" name="name" :value="item.name"/>
-                            </td>
-                            <td style="text-align: center;">
-                                <input type="text" class="form-control form-control-sm" name="alias" :value="item.alias"/>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control form-control-sm" name="url" :value="item.url"/>
-                            </td>
-                            <td style="text-align: center;">
-                                <button class="btn btn-warning btn-sm" @click="deleteRow($event)">DELETE</button>
-                                <button class="btn btn-warning btn-sm" @click="goUrl($event)">Go</button>
-                            </td>
-                        </tr>
-                    </draggable>
-                </table>
+
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="float-right pb-1">
-                    <button class="btn btn-primary btn-sm" @click="newLine()">New Line</button>
-                    <button class="btn btn-primary btn-sm" @click="saveData()">SAVE</button>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Chrome Extension : shortcut-url</h5>
+<!--                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+
+                        <table class="table table-sm table-fixed">
+                            <thead>
+                            <tr>
+                                <th class="col-sm-3" style="text-align: center;">Name</th>
+                                <th class="col-sm-3" style="text-align: center;">Shortcut</th>
+                                <th class="col-sm-4" style="text-align: center;">URL</th>
+                                <th class="col-sm-2" style="text-align: center;">Functions</th>
+                            </tr>
+                            </thead>
+                            <draggable id="tableResult" element="tbody" v-model="aliasList">
+                                <tr class="dragndrop" v-for="item in aliasList">
+                                    <td class="col-sm-3" style="text-align: center;">
+                                        <input type="text" class="form-control form-control-sm" name="name" :value="item.name"/>
+                                    </td>
+                                    <td class="col-sm-3" style="text-align: center;">
+                                        <input type="text" class="form-control form-control-sm" name="alias" :value="item.alias"/>
+                                    </td>
+                                    <td class="col-sm-4">
+                                        <input type="text" class="form-control form-control-sm" name="url" :value="item.url"/>
+                                    </td>
+                                    <td class="col-sm-2" style="text-align: center;">
+                                        <button class="btn btn-warning btn-sm" @click="deleteRow($event)">DELETE</button>
+                                        <button class="btn btn-warning btn-sm" @click="goUrl($event)">Go</button>
+                                    </td>
+                                </tr>
+                            </draggable>
+                        </table>
+
+                        <div class="float-right pb-1">
+                            <button class="btn btn-primary btn-sm" @click="newLine()">New Line</button>
+                            <button class="btn btn-primary btn-sm" @click="saveData()">SAVE</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -203,4 +213,26 @@
 </script>
 
 <style scoped>
+    .table-fixed {
+        width: 100%;
+        background-color: #f3f3f3;
+    }
+
+    .table-fixed tbody {
+        height: 600px;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    .table-fixed thead, tbody, tr, td, th {
+        display: block;
+    }
+
+    .table-fixed tbody td {
+        float: left;
+    }
+
+    .table-fixed thead tr th {
+        float: left;
+    }
 </style>
