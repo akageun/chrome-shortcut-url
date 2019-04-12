@@ -16,29 +16,29 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Chrome Extension : shortcut-url</h5>
-<!--                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                        <!--                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
 
-                        <table class="table table-sm table-fixed">
+                        <table class="table table-sm ">
                             <thead>
                             <tr>
-                                <th class="col-sm-3" style="text-align: center;">Name</th>
-                                <th class="col-sm-3" style="text-align: center;">Shortcut</th>
-                                <th class="col-sm-4" style="text-align: center;">URL</th>
-                                <th class="col-sm-2" style="text-align: center;">Functions</th>
+                                <th style="text-align: center;">Name</th>
+                                <th style="text-align: center;">Shortcut</th>
+                                <th style="text-align: center;">URL</th>
+                                <th style="text-align: center;">Functions</th>
                             </tr>
                             </thead>
                             <draggable id="tableResult" element="tbody" v-model="aliasList">
                                 <tr class="dragndrop" v-for="item in aliasList">
-                                    <td class="col-sm-3" style="text-align: center;">
+                                    <td style="text-align: center;">
                                         <input type="text" class="form-control form-control-sm" name="name" :value="item.name"/>
                                     </td>
-                                    <td class="col-sm-3" style="text-align: center;">
+                                    <td style="text-align: center;">
                                         <input type="text" class="form-control form-control-sm" name="alias" :value="item.alias"/>
                                     </td>
-                                    <td class="col-sm-4">
+                                    <td>
                                         <input type="text" class="form-control form-control-sm" name="url" :value="item.url"/>
                                     </td>
-                                    <td class="col-sm-2" style="text-align: center;">
+                                    <td style="text-align: center;">
                                         <button class="btn btn-warning btn-sm" @click="deleteRow($event)">DELETE</button>
                                         <button class="btn btn-warning btn-sm" @click="goUrl($event)">Go</button>
                                     </td>
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-    import commonUtil from '@/common/js/commonUtil';
+    import commonUtil from 'SrcRoot/common/js/commonUtil';
     import draggable from "vuedraggable";
 
     export default {
@@ -213,26 +213,5 @@
 </script>
 
 <style scoped>
-    .table-fixed {
-        width: 100%;
-        background-color: #f3f3f3;
-    }
 
-    .table-fixed tbody {
-        height: 600px;
-        overflow-y: auto;
-        width: 100%;
-    }
-
-    .table-fixed thead, tbody, tr, td, th {
-        display: block;
-    }
-
-    .table-fixed tbody td {
-        float: left;
-    }
-
-    .table-fixed thead tr th {
-        float: left;
-    }
 </style>

@@ -7,7 +7,48 @@ const {VueLoaderPlugin} = require('vue-loader');
 const {version} = require('./package.json');
 const path = require('path');
 
-const config = {
+const commonModule = {
+    mode: process.env.NODE_ENV,
+    context: path.join(__dirname, '/src'),
+    entry: {
+        'bundle': './common/js/bundle.js',
+        'commonUtil': './common/js/commonUtil.js'
+    },
+    output: {
+        path: path.join(__dirname, '/dist/common'),
+        filename: "[name].js"
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
+            },
+            {
+                test: /\.(png|jpg|gif|svg|ico)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]?emitFile=false',
+                },
+            },
+        ],
+    },
+    plugins: [
+        new webpack.DefinePlugin({
+            global: 'window',
+        }),
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+        }),
+    ],
+};
+
+const extensionConfig = {
     mode: process.env.NODE_ENV,
     context: path.join(__dirname, '/src'),
     entry: {
@@ -22,7 +63,7 @@ const config = {
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
-            '@': path.join(__dirname, '/src'),
+            'SrcRoot': path.join(__dirname, '/src'),
         }
     },
     module: {
@@ -67,7 +108,7 @@ const config = {
         }),
         new CopyWebpackPlugin([
             {from: 'resources', to: 'resources'},
-            {from: 'common', to: 'common'},
+            // {from: 'common', to: 'common'},
             {from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml},
             {from: 'options/options.html', to: 'options/options.html', transform: transformHtml},
             {
@@ -77,7 +118,7 @@ const config = {
                     const jsonContent = JSON.parse(content);
                     jsonContent.version = version;
 
-                    if (config.mode === 'development') {
+                    if (extensionConfig.mode === 'development') {
                         jsonContent['content_security_policy'] = "script-src 'self' 'unsafe-eval'; object-src 'self'";
                     }
 
@@ -88,8 +129,8 @@ const config = {
     ],
 };
 
-if (config.mode === 'production') {
-    config.plugins = (config.plugins || []).concat([
+if (extensionConfig.mode === 'production') {
+    extensionConfig.plugins = (extensionConfig.plugins || []).concat([
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: '"production"',
@@ -99,7 +140,7 @@ if (config.mode === 'production') {
 }
 
 if (process.env.HMR === 'true') {
-    config.plugins = (config.plugins || []).concat([
+    extensionConfig.plugins = (extensionConfig.plugins || []).concat([
         new ChromeExtensionReloader(),
     ]);
 }
@@ -110,4 +151,6 @@ function transformHtml(content) {
     });
 }
 
-module.exports = config;
+module.exports = [
+    extensionConfig, commonModule
+];
