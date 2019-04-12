@@ -4,7 +4,7 @@
         <div class="row mt-2">
             <div class="col">
                 <div class="float-right">
-                    <button class="btn btn-info btn-sm" @click="openOptionPage($event)">Open Option Page</button>
+                    <button class="btn btn-info btn-sm" @click="openOptionPage($event)">Option</button>
                 </div>
             </div>
         </div>

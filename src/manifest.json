@@ -1,6 +1,6 @@
 {
   "name": "shortcut-url",
-  "description": "...",
+  "description": "With the this chrome extension, you can quick URL searches with shortcuts.",
   "homepage_url": "https://github.com/akageun/chrome-shortcut-url",
   "version": null,
   "manifest_version": 2,

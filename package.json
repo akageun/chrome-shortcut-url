@@ -1,7 +1,7 @@
 {
   "name": "chrome-shortcut-url",
   "version": "0.0.1",
-  "description": "....",
+  "description": "With the this chrome extension, you can quick URL searches with shortcuts.",
   "author": "akageun <akageun@gmail.com>",
   "license": "MIT",
   "scripts": {

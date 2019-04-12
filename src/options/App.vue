@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Chrome Extension : shortcut-url</h5>
-                        <!--                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                        <p class="card-text">With the this chrome extension, you can quick URL searches with shortcuts.</p>
 
                         <table class="table table-sm ">
                             <thead>
