@@ -5,7 +5,7 @@ class CommonUtil {
     getLocalItem(targetKey) {
         return new Promise((resoluve, reject) => {
 
-            chrome.storage.local.get(targetKey, function (res) {
+            chrome.storage.local.get(targetKey, (res) => {
                 resoluve(res);
             });
 

@@ -115,7 +115,7 @@
             clearData() {
 
                 if (confirm('저장된 데이터를 전체 삭제하시겠습니까?')) {
-                    chrome.storage.local.clear(function () {
+                    chrome.storage.local.clear(() => {
                         const error = chrome.runtime.lastError;
                         if (error) {
                             console.error(error);
@@ -157,7 +157,7 @@
                 e.preventDefault();
 
                 commonUtil.getLocalItem('json')
-                    .then(function (res) {
+                    .then((res) => {
 
                         if (!res.json) {
                             alert('등록된 데이터가 없습니다.');
@@ -192,7 +192,9 @@
             },
             importJsonModalOpen(e) {
                 e.preventDefault();
-                $("#importModal").modal({backdrop: 'static'});
+                $("#importModal").modal({
+                    backdrop: 'static'
+                });
             },
             importJson(e) {
                 e.preventDefault();
@@ -200,7 +202,7 @@
                 const file = document.getElementById("importFileInput").files[0];
                 const reader = new FileReader();
                 reader.readAsText(file);
-                reader.onload = function (e) {
+                reader.onload = (e) => {
                     chrome.storage.local.set({'json': JSON.parse(e.target.result)});
                     window.location.reload();
                 };

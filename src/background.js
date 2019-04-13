@@ -11,7 +11,10 @@ chrome.omnibox.onInputChanged.addListener((query, suggest) => {
             let suggestArr = [];
             for (let i = 0; i < result.length; i++) {
                 const res = result[i];
-                suggestArr.push({content: res.url, description: "<dim>[" + res.alias + "]</dim> " + res.name});
+                suggestArr.push({
+                    content: res.url,
+                    description: `<dim>[${res.alias}]</dim> ${res.name}`
+                });
             }
 
             suggest(suggestArr);
