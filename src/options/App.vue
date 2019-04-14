@@ -164,11 +164,11 @@
                             return;
                         }
 
-                        const fileName = "shortcut_url_" + new Date().getTime() + ".json";
+                        const fileName = `shortcut_url_${new Date().getTime()}.json`;
                         const result = JSON.stringify(res.json);
 
                         // Save as file
-                        const url = 'data:application/json;base64,' + btoa(result);
+                        const url = `data:application/json;base64,${btoa(result)}`;
                         chrome.downloads.download({
                             url: url,
                             filename: fileName
