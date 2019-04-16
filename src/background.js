@@ -1,11 +1,12 @@
-import commonUtil from './common/js/commonUtil';
+import commonUtil from 'SrcRoot/common/js/commonUtil';
 import Fuse from 'fuse.js';
 
 // 매니페스트에 설정한 키워드 URL 입력시 이벤트
 chrome.omnibox.onInputChanged.addListener((query, suggest) => {
+
     commonUtil.getLocalItem('json')
         .then((res) => {
-            const fuse = new Fuse(res.json, getOption()); // "list" is the item array
+            const fuse = new Fuse(res.json, commonUtil.getOption()); // "list" is the item array
             const result = fuse.search(query);
 
             let suggestArr = [];
@@ -25,19 +26,3 @@ chrome.omnibox.onInputChanged.addListener((query, suggest) => {
 chrome.omnibox.onInputEntered.addListener((url) => {
     chrome.tabs.update({url: url});
 });
-
-function getOption() {
-    return {
-        shouldSort: true,
-        threshold: 0.6,
-        location: 0,
-        distance: 100,
-        maxPatternLength: 32,
-        minMatchCharLength: 1,
-        keys: [
-            "alias",
-            "name",
-            "url"
-        ]
-    };
-}
