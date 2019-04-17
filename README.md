@@ -7,3 +7,6 @@ With the this chrome extension, you can quick URL searches with shortcuts.
 ![Screenshot_1](./image/screenshot/ss_1.png)
 
 ![Screenshot_2](./image/screenshot/ss_2.png)
+
+## Example Json
+- [JSON](./example/shortcut_url.json)
