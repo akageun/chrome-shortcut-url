@@ -1,15 +1,6 @@
 <template>
     <div class="container">
-        <div class="row mt-3">
-            <div class="col">
-                <div class="btn-group float-right pb-1">
-                    <button class="btn btn-secondary btn-sm" @click="clearData()">CLEAR</button>
-                    <button class="btn btn-secondary btn-sm" @click="importJsonModalOpen($event)">IMPORT</button>
-                    <button class="btn btn-secondary btn-sm" @click="exportJson($event)">EXPORT</button>
-                </div>
 
-            </div>
-        </div>
         <div class="row">
             <div class="col">
 
@@ -18,37 +9,59 @@
                         <h5 class="card-title">Chrome Extension : shortcut-url</h5>
                         <p class="card-text">With the this chrome extension, you can quick URL searches with shortcuts.</p>
 
-                        <table class="table table-sm ">
-                            <thead>
-                            <tr>
-                                <th style="text-align: center;">Name</th>
-                                <th style="text-align: center;">Shortcut</th>
-                                <th style="text-align: center;">URL</th>
-                                <th style="text-align: center;">Functions</th>
-                            </tr>
-                            </thead>
-                            <draggable id="tableResult" element="tbody" v-model="aliasList">
-                                <tr class="dragndrop" v-for="item in aliasList">
-                                    <td style="text-align: center;">
-                                        <input type="text" class="form-control form-control-sm" name="name" :value="item.name"/>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <input type="text" class="form-control form-control-sm" name="alias" :value="item.alias"/>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control form-control-sm" name="url" :value="item.url"/>
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <button class="btn btn-warning btn-sm" @click="deleteRow($event)">DELETE</button>
-                                        <button class="btn btn-warning btn-sm" @click="goUrl($event)">Go</button>
-                                    </td>
-                                </tr>
-                            </draggable>
-                        </table>
+                        <div class="btn-toolbar justify-content-between mb-1" role="toolbar">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">@</div>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!">
+                            </div>
 
-                        <div class="float-right pb-1">
-                            <button class="btn btn-primary btn-sm" @click="newLine()">New Line</button>
-                            <button class="btn btn-primary btn-sm" @click="saveData()">SAVE</button>
+                            <div>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="First group">
+                                    <button class="btn btn-secondary btn-sm" @click="clearData()">CLEAR</button>
+                                    <button class="btn btn-secondary btn-sm" @click="importJsonModalOpen($event)">IMPORT</button>
+                                    <button class="btn btn-secondary btn-sm" @click="exportJson($event)">EXPORT</button>
+                                </div>
+                                <button class="btn btn-primary btn-sm" @click="saveData()">SAVE</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="text-align: center;">Name</th>
+                                    <th style="text-align: center;">Shortcut</th>
+                                    <th style="text-align: center;">URL</th>
+                                    <th style="text-align: center;">Functions</th>
+                                </tr>
+                                </thead>
+                                <draggable id="tableResult" element="tbody" v-model="aliasList">
+                                    <tr class="dragndrop" v-for="(item, key) in aliasList">
+
+                                        <td style="text-align: center;">
+                                            <input type="text" class="form-control form-control-sm" name="name" v-model="item.name"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <input type="text" class="form-control form-control-sm" name="alias" v-model="item.alias"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" name="url" v-model="item.url"/>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button class="btn btn-warning btn-sm" @click="deleteRow($event, key)">DELETE</button>
+                                            <button class="btn btn-warning btn-sm" @click="goUrl($event, item.url)">Go</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <button class="btn btn-primary btn-block" @click="newLine()">New Line</button>
+                                        </td>
+                                    </tr>
+                                </draggable>
+
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -127,31 +140,20 @@
 
             },
             saveData() {
-
-                const resultCount = document.getElementById('tableResult').getElementsByTagName('tr').length;
-
-                const urlArr = document.getElementsByName('url');
-                const nameArr = document.getElementsByName('name');
-                const aliasArr = document.getElementsByName('alias');
-
-                const aliasUrlArr = [];
-
-                for (let i = 0; i < resultCount; i++) {
-                    const url = urlArr[i].value;
-                    const name = nameArr[i].value;
-                    const alias = aliasArr[i].value;
+                for (const json of this.aliasList) {
+                    const url = json.url;
+                    const name = json.name;
+                    const alias = json.alias;
 
                     if (!url || !name || !alias) {
                         alert("필수 값을 입력해주세요.");
                         return;
                     }
-
-                    aliasUrlArr.push({url: url, name: name, alias: alias});
                 }
 
-                alert('Success save');
+                chrome.storage.local.set({'json': this.aliasList});
 
-                chrome.storage.local.set({'json': aliasUrlArr});
+                alert('Success save');
             },
             exportJson(e) {
                 e.preventDefault();
@@ -175,14 +177,13 @@
                         });
                     });
             },
-            deleteRow(e) {
+            deleteRow(e, listIndex) {
                 const resultEle = document.getElementById('tableResult');
                 resultEle.removeChild(e.currentTarget.parentNode.parentNode);
 
-                alert('Delete Line');
+                this.aliasList.splice(listIndex, 1);
             },
-            goUrl(e) {
-                const url = e.currentTarget.parentNode.parentNode.querySelector("[name='url']").value;
+            goUrl(e, url) {
                 if (!url) {
                     alert('Url Empty!');
                     return;

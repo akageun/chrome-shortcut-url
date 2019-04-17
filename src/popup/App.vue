@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="row no-gutters mt-2">
-            <table class="table table-sm table-bordered">
+            <table class="table table-sm table-hover table-bordered">
                 <thead>
                 <tr>
                     <th>
@@ -84,4 +84,5 @@
         position: relative;
         vertical-align: middle;
     }
+
 </style>
