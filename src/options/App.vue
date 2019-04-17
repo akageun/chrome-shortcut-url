@@ -1,9 +1,8 @@
 <template>
-    <div class="container">
+    <div class="container mt-2">
 
         <div class="row">
             <div class="col">
-
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Chrome Extension : shortcut-url</h5>
@@ -11,10 +10,10 @@
 
                         <div class="btn-toolbar justify-content-between mb-1" role="toolbar">
                             <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">@</div>
-                                </div>
-                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!">
+<!--                                <div class="input-group-prepend">-->
+<!--                                    <div class="input-group-text">@</div>-->
+<!--                                </div>-->
+<!--                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!" v-model="searchText">-->
                             </div>
 
                             <div>
@@ -104,6 +103,7 @@
         },
         data() {
             return {
+                searchText: '',
                 aliasList: []
             }
         },
