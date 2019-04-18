@@ -1,5 +1,23 @@
+import Fuse from 'fuse.js';
+
 class CommonUtil {
     constructor() {
+    }
+
+    getAliasList(searchText) {
+        return new Promise((resolve, reject) => {
+            this.getLocalItem('json')
+                .then((res) => {
+                    const resJson = res.json;
+                    if (!searchText) {
+                        resolve(resJson);
+                        return;
+                    }
+
+                    const fuse = new Fuse(resJson, this.getOption()); // "list" is the item array
+                    resolve(fuse.search(searchText));
+                });
+        });
     }
 
     getLocalItem(targetKey) {

@@ -3,36 +3,47 @@
 
         <div class="row mt-2">
             <div class="col">
-                <div class="float-right">
-                    <button class="btn btn-info btn-sm" @click="openOptionPage($event)">Option</button>
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="btn-toolbar justify-content-between mb-1" role="toolbar">
+<!--                            <div class="input-group input-group-sm">-->
+<!--                                <div class="input-group-prepend">-->
+<!--                                    <div class="input-group-text">@</div>-->
+<!--                                </div>-->
+<!--                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!" v-model="searchText">-->
+<!--                            </div>-->
+
+                            <button class="btn btn-info btn-sm" @click="openOptionPage($event)">Option</button>
+                        </div>
+
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                            <tr>
+                                <th>
+                                    NAME
+                                </th>
+                                <th>
+                                    ALIAS
+                                </th>
+                                <th>
+                                    URL
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="item in aliasList">
+                                <td>{{item.name}}</td>
+                                <td>{{item.alias}}</td>
+                                <td>
+                                    <a @click="goUrl($event, item.url)" href="#">{{item.url}}</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row no-gutters mt-2">
-            <table class="table table-sm table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th>
-                        NAME
-                    </th>
-                    <th>
-                        ALIAS
-                    </th>
-                    <th>
-                        URL
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="item in aliasList">
-                    <td>{{item.name}}</td>
-                    <td>{{item.alias}}</td>
-                    <td>
-                        <a @click="goUrl($event, item.url)" href="#">{{item.url}}</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 </template>
@@ -43,6 +54,7 @@
     export default {
         data() {
             return {
+                searchText: '',
                 aliasList: []
             }
         },
@@ -79,7 +91,7 @@
     body {
         min-width: 600px; /* your desired width */
         max-width: 100%;
-        min-height: 400px;
+        min-height: 450px;
         max-height: 100%;
         position: relative;
         vertical-align: middle;

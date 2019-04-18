@@ -47,11 +47,6 @@ const commonModule = {
         new MiniCssExtractPlugin({
             filename: '[name].css',
         }),
-        new UglifyJSPlugin({
-            cache: true,
-            parallel: 4
-        }),
-        new OptimizeCSSAssetsPlugin({})
     ],
     performance: {
         hints: false
