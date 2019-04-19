@@ -9,12 +9,12 @@
                         <p class="card-text">With the this chrome extension, you can quick URL searches with shortcuts.</p>
 
                         <div class="btn-toolbar justify-content-between mb-1" role="toolbar">
-<!--                            <div class="input-group input-group-sm">-->
-<!--                                <div class="input-group-prepend">-->
-<!--                                    <div class="input-group-text">@</div>-->
-<!--                                </div>-->
-<!--                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!" v-model="searchText">-->
-<!--                            </div>-->
+                            <!--                            <div class="input-group input-group-sm">-->
+                            <!--                                <div class="input-group-prepend">-->
+                            <!--                                    <div class="input-group-text">@</div>-->
+                            <!--                                </div>-->
+                            <!--                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!" v-model="searchText">-->
+                            <!--                            </div>-->
 
                             <div>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="First group">
@@ -50,6 +50,7 @@
                                         </td>
                                         <td style="text-align: center;">
                                             <button class="btn btn-warning btn-sm" @click="deleteRow($event, key)">DELETE</button>
+                                            <button class="btn btn-warning btn-sm" @click="goCopy($event,item)">Copy</button>
                                             <button class="btn btn-warning btn-sm" @click="goUrl($event, item.url)">Go</button>
                                         </td>
                                     </tr>
@@ -120,12 +121,11 @@
                             this.aliasList.push({});
                         }
                     });
-            }
-            ,
+            },
+
             newLine() {
                 this.aliasList.push({});
-            }
-            ,
+            },
             clearData() {
 
                 if (confirm('저장된 데이터를 전체 삭제하시겠습니까?') === false) {
@@ -141,8 +141,8 @@
 
                 window.location.reload();
 
-            }
-            ,
+            },
+
             saveData() {
                 for (const json of this.aliasList) {
                     const url = json.url;
@@ -158,8 +158,8 @@
                 chrome.storage.local.set({'json': this.aliasList});
 
                 alert('Success save');
-            }
-            ,
+            },
+
             exportJson(e) {
                 e.preventDefault();
 
@@ -181,15 +181,18 @@
                             filename: fileName
                         });
                     });
-            }
-            ,
+            },
+            goCopy(event, item) {
+                event.preventDefault();
+                this.aliasList.push({url: item.url, name: item.name, alias: item.alias});
+            },
+
             deleteRow(e, listIndex) {
                 const resultEle = document.getElementById('tableResult');
                 resultEle.removeChild(e.currentTarget.parentNode.parentNode);
 
                 this.aliasList.splice(listIndex, 1);
-            }
-            ,
+            },
             goUrl(e, url) {
                 if (!url) {
                     alert('Url Empty!');
@@ -197,15 +200,15 @@
                 }
 
                 chrome.tabs.create({url: url}); //new Tabs
-            }
-            ,
+            },
+
             importJsonModalOpen(e) {
                 e.preventDefault();
                 $("#importModal").modal({
                     backdrop: 'static'
                 });
-            }
-            ,
+            },
+
             importJson(e) {
                 e.preventDefault();
 
