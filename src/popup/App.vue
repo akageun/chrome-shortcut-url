@@ -7,12 +7,12 @@
                     <div class="card-body">
 
                         <div class="btn-toolbar justify-content-between mb-1" role="toolbar">
-<!--                            <div class="input-group input-group-sm">-->
-<!--                                <div class="input-group-prepend">-->
-<!--                                    <div class="input-group-text">@</div>-->
-<!--                                </div>-->
-<!--                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!" v-model="searchText">-->
-<!--                            </div>-->
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">@</div>
+                                </div>
+                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!" v-model="searchText">
+                            </div>
 
                             <button class="btn btn-info btn-sm" @click="openOptionPage($event)">Option</button>
                         </div>
@@ -32,7 +32,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="item in aliasList">
+                            <tr v-for="item in getAliasList">
                                 <td>{{item.name}}</td>
                                 <td>{{item.alias}}</td>
                                 <td>
@@ -60,6 +60,11 @@
         },
         mounted() {
             this.initUrlList();
+        },
+        computed: {
+            getAliasList() {
+                return commonUtil.searchList(this.aliasList, this.searchText);
+            }
         },
         methods: {
             goUrl(e, url) {

@@ -4,18 +4,19 @@ class CommonUtil {
     constructor() {
     }
 
+    searchList(aliasList, searchText) {
+        if (!searchText) {
+            return aliasList;
+        }
+        const fuse = new Fuse(aliasList, this.getOption()); // "list" is the item array
+        return fuse.search(searchText);
+    }
+
     getAliasList(searchText) {
         return new Promise((resolve, reject) => {
             this.getLocalItem('json')
                 .then((res) => {
-                    const resJson = res.json;
-                    if (!searchText) {
-                        resolve(resJson);
-                        return;
-                    }
-
-                    const fuse = new Fuse(resJson, this.getOption()); // "list" is the item array
-                    resolve(fuse.search(searchText));
+                    resolve(this.searchList(res.json, searchText))
                 });
         });
     }
