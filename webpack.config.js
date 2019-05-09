@@ -6,6 +6,8 @@ const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
 const {VueLoaderPlugin} = require('vue-loader');
 const {version} = require('./package.json');
 const path = require('path');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const commonModule = {
     mode: process.env.NODE_ENV,
@@ -46,6 +48,9 @@ const commonModule = {
             filename: '[name].css',
         }),
     ],
+    performance: {
+        hints: false
+    },
 };
 
 const extensionConfig = {
@@ -118,7 +123,15 @@ const extensionConfig = {
                 },
             },
         ]),
+        new UglifyJSPlugin({
+            cache: true,
+            parallel: 4
+        }),
+        new OptimizeCSSAssetsPlugin({})
     ],
+    performance: {
+        maxEntrypointSize: 400000
+    },
 };
 
 if (extensionConfig.mode === 'production') {

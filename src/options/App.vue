@@ -9,12 +9,12 @@
                         <p class="card-text">With the this chrome extension, you can quick URL searches with shortcuts.</p>
 
                         <div class="btn-toolbar justify-content-between mb-1" role="toolbar">
-                            <div class="input-group input-group-sm">
-<!--                                <div class="input-group-prepend">-->
-<!--                                    <div class="input-group-text">@</div>-->
-<!--                                </div>-->
-<!--                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!" v-model="searchText">-->
-                            </div>
+                            <!--                            <div class="input-group input-group-sm">-->
+                            <!--                                <div class="input-group-prepend">-->
+                            <!--                                    <div class="input-group-text">@</div>-->
+                            <!--                                </div>-->
+                            <!--                                <input type="text" class="form-control form-control-sm" placeholder="Search Text!" v-model="searchText">-->
+                            <!--                            </div>-->
 
                             <div>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="First group">
@@ -27,7 +27,7 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-sm table-hover table-bordered">
+                            <table class="table table-sm table-bordered">
                                 <thead>
                                 <tr>
                                     <th style="text-align: center;">Name</th>
@@ -36,7 +36,7 @@
                                     <th style="text-align: center;">Functions</th>
                                 </tr>
                                 </thead>
-                                <draggable id="tableResult" element="tbody" v-model="aliasList">
+                                <draggable id="tableResult" tag="tbody" v-model="aliasList" draggable=".dragndrop">
                                     <tr class="dragndrop" v-for="(item, key) in aliasList">
 
                                         <td style="text-align: center;">
@@ -50,6 +50,7 @@
                                         </td>
                                         <td style="text-align: center;">
                                             <button class="btn btn-warning btn-sm" @click="deleteRow($event, key)">DELETE</button>
+                                            <button class="btn btn-warning btn-sm" @click="goCopy($event,item)">Copy</button>
                                             <button class="btn btn-warning btn-sm" @click="goUrl($event, item.url)">Go</button>
                                         </td>
                                     </tr>
@@ -112,33 +113,36 @@
         },
         methods: {
             initUrlList() {
-                commonUtil
-                    .getLocalItem('json')
+                commonUtil.getAliasList(this.searchText)
                     .then((res) => {
-                        if (res.json) {
-                            this.aliasList = res.json;
+                        if (res) {
+                            this.aliasList = res;
                         } else {
                             this.aliasList.push({});
                         }
                     });
             },
+
             newLine() {
                 this.aliasList.push({});
             },
             clearData() {
 
-                if (confirm('저장된 데이터를 전체 삭제하시겠습니까?')) {
-                    chrome.storage.local.clear(() => {
-                        const error = chrome.runtime.lastError;
-                        if (error) {
-                            console.error(error);
-                        }
-                    });
-
-                    window.location.reload();
+                if (confirm('저장된 데이터를 전체 삭제하시겠습니까?') === false) {
+                    return;
                 }
 
+                chrome.storage.local.clear(() => {
+                    const error = chrome.runtime.lastError;
+                    if (error) {
+                        console.error(error);
+                    }
+                });
+
+                window.location.reload();
+
             },
+
             saveData() {
                 for (const json of this.aliasList) {
                     const url = json.url;
@@ -155,6 +159,7 @@
 
                 alert('Success save');
             },
+
             exportJson(e) {
                 e.preventDefault();
 
@@ -177,6 +182,11 @@
                         });
                     });
             },
+            goCopy(event, item) {
+                event.preventDefault();
+                this.aliasList.push({url: item.url, name: item.name, alias: item.alias});
+            },
+
             deleteRow(e, listIndex) {
                 const resultEle = document.getElementById('tableResult');
                 resultEle.removeChild(e.currentTarget.parentNode.parentNode);
@@ -191,12 +201,14 @@
 
                 chrome.tabs.create({url: url}); //new Tabs
             },
+
             importJsonModalOpen(e) {
                 e.preventDefault();
                 $("#importModal").modal({
                     backdrop: 'static'
                 });
             },
+
             importJson(e) {
                 e.preventDefault();
 
@@ -212,7 +224,8 @@
 
             }
         }
-    };
+    }
+    ;
 </script>
 
 <style scoped>

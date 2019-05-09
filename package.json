@@ -12,13 +12,13 @@
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
   },
   "dependencies": {
-    "vuedraggable": "^2.20.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "fuse.js": "^3.4.4",
     "jquery": "^3.3.1",
     "popper.js": "^1.15.0",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vuedraggable": "^2.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -35,6 +35,8 @@
     "expose-loader": "^0.7.5",
     "file-loader": "^1.1.11",
     "mini-css-extract-plugin": "^0.4.4",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "uglifyjs-webpack-plugin": "^2.1.2",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.20.2",
