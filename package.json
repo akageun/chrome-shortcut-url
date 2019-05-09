@@ -5,9 +5,10 @@
   "author": "akageun <akageun@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --hide-modules",
+    "build": "npm run build-clean && cross-env NODE_ENV=production webpack --hide-modules",
     "build:dev": "cross-env NODE_ENV=development webpack --hide-modules",
-    "build-zip": "node scripts/build-zip.js",
+    "build-clean" : "rimraf ./dist",
+    "build-zip": "npm run build && node scripts/build-zip.js",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch"
   },
@@ -36,6 +37,7 @@
     "file-loader": "^1.1.11",
     "mini-css-extract-plugin": "^0.4.4",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "rimraf": "^2.6.3",
     "uglifyjs-webpack-plugin": "^2.1.2",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.6.10",
