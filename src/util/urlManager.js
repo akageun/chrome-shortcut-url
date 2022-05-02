@@ -48,7 +48,6 @@ class UrlManager {
 
             }
         }
-        console.log("aliasList : ", aliasList);
         await this.saveAliasList(aliasList);
     }
 
