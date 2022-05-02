@@ -2,12 +2,13 @@
   "name": "shortcut-url",
   "description": "With the this chrome extension, you can quick URL searches with shortcuts.",
   "homepage_url": "https://github.com/akageun/chrome-shortcut-url",
-  "version": null,
-  "manifest_version": 2,
+  "version": "0.0.4",
+  "manifest_version": 3,
   "icons": {
-    "16": "resources/img/icons/icon-16.png",
-    "48": "resources/img/icons/icon-48.png",
-    "128": "resources/img/icons/icon-128.png"
+    "16": "assets/icons/export16px.png",
+    "32": "assets/icons/export32px.png",
+    "64": "assets/icons/export64px.png",
+    "128": "assets/icons/export128px.png"
   },
   "omnibox": {
     "keyword": "as"
@@ -15,16 +16,12 @@
   "permissions": [
     "tabs",
     "storage",
+    "unlimitedStorage",
     "downloads"
   ],
-  "browser_action": {
-    "default_title": "chrome-shortcut-url",
-    "default_popup": "popup/popup.html"
-  },
+  "options_page": "./options.html",
   "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
-  "options_page": "options/options.html"
+    "service_worker": "./background.js"
+  }
 }
+

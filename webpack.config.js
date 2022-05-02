@@ -1,161 +1,132 @@
-const webpack = require('webpack');
-const ejs = require('ejs');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ChromeExtensionReloader = require('webpack-chrome-extension-reloader');
-const {VueLoaderPlugin} = require('vue-loader');
-const {version} = require('./package.json');
-const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const ExtensionReloader = require('webpack-extension-reloader')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 
-const commonModule = {
-    mode: process.env.NODE_ENV,
-    context: path.join(__dirname, '/src'),
-    entry: {
-        'bundle': './common/js/bundle.js',
-        'commonUtil': './common/js/commonUtil.js'
-    },
-    output: {
-        path: path.join(__dirname, '/dist/common'),
-        filename: "[name].js"
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
-            },
-            {
-                test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
-            },
-            {
-                test: /\.(png|jpg|gif|svg|ico)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?emitFile=false',
+// eslint-disable-next-line
+function configFunc(env, argv) {
+    const isDevMode = env.NODE_ENV === 'development'
+    const config = {
+        devtool: isDevMode ? 'cheap-module-source-map' : false,
+        context: path.resolve(__dirname, './src'),
+        entry: {
+            options: './options/index.js',
+            popup: './popup/index.js',
+            background: './background.js',
+            //contentScripts: './contentScripts/index.js',
+        },
+        output: {
+            path: path.resolve(__dirname, './dist'),
+            publicPath: './',
+            filename: '[name].js',
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.vue$/,
+                    loader: 'vue-loader',
+                    options: {
+                        extractCSS: !isDevMode,
+                    },
                 },
+                {
+                    test: /\.js$/,
+                    loader: 'babel-loader',
+                    exclude: /(node_modules|bower_components)/,
+                },
+                {
+                    test: /\.scss$/,
+                    use: ['vue-style-loader', 'css-loader', 'sass-loader'],
+                },
+                {
+                    test: /\.sass$/,
+                    use: [
+                        'vue-style-loader',
+                        'css-loader',
+                        {
+                            loader: 'sass-loader',
+                            // eslint-disable-next-line
+                            options: { implementation: require('sass') },
+                        },
+                    ],
+                },
+                {
+                    test: /\.css$/,
+                    use: ['vue-style-loader', 'css-loader'],
+                },
+                {
+                    test: /\.(png|jpg|gif|svg)$/,
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]?[hash]',
+                        esModule: false,
+                    },
+                },
+            ],
+        },
+        resolve: {
+            extensions: ['.js', '.vue'],
+            alias: {
+                vue$: 'vue/dist/vue.runtime.esm.js',
+                '@': path.join(__dirname, './src'),
             },
+            // extensions: ['.js'],
+        },
+
+        plugins: [
+            new VueLoaderPlugin(),
+            new CleanWebpackPlugin({
+                cleanStaleWebpackAssets: false,
+            }),
+            new CopyWebpackPlugin({
+                patterns: [
+                    { from: 'assets', to: 'assets' },
+                    { from: 'manifest.json', to: 'manifest.json', flatten: true },
+                ],
+            }),
+            new HtmlWebpackPlugin({
+                title: 'Options',
+                template: './index.html',
+                filename: 'options.html',
+                chunks: ['options'],
+            }),
+            new HtmlWebpackPlugin({
+                title: 'Popup',
+                template: './index.html',
+                filename: 'popup.html',
+                chunks: ['popup'],
+            }),
         ],
-    },
-    plugins: [
-        new webpack.DefinePlugin({
-            global: 'window',
-        }),
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-        }),
-    ],
-    performance: {
-        hints: false
-    },
-};
+    }
 
-const extensionConfig = {
-    mode: process.env.NODE_ENV,
-    context: path.join(__dirname, '/src'),
-    entry: {
-        'background': './background.js',
-        'popup/popup': './popup/popup.js',
-        'options/options': './options/options.js',
-    },
-    output: {
-        path: path.join(__dirname, '/dist'),
-        filename: '[name].js',
-    },
-    resolve: {
-        extensions: ['.js', '.vue'],
-        alias: {
-            'SrcRoot': path.join(__dirname, '/src'),
-        }
-    },
-    module: {
-        rules: [
-            {
-                test: /\.vue$/,
-                loaders: 'vue-loader',
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/,
-            },
-            {
-                test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
-            },
-            {
-                test: /\.(png|jpg|gif|svg|ico)$/,
-                loader: 'file-loader',
-                options: {
-                    name: '[name].[ext]?emitFile=false',
+    /**
+     * Adjust rendererConfig for production settings
+     */
+    if (isDevMode) {
+        config.plugins.push(
+            new webpack.HotModuleReplacementPlugin(),
+            new ExtensionReloader({
+                entries: {
+                    contentScript: 'contentScripts',
+                    background: 'background',
+                    extensionPage: 'popup',
+                    options: 'options',
                 },
-            },
-        ],
-    },
-    plugins: [
-        new webpack.DefinePlugin({
-            global: 'window',
-        }),
-        new VueLoaderPlugin(),
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-        }),
-        new CopyWebpackPlugin([
-            {from: 'resources', to: 'resources'},
-            // {from: 'common', to: 'common'},
-            {from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml},
-            {from: 'options/options.html', to: 'options/options.html', transform: transformHtml},
-            {
-                from: 'manifest.json',
-                to: 'manifest.json',
-                transform: (content) => {
-                    const jsonContent = JSON.parse(content);
-                    jsonContent.version = version;
-
-                    if (extensionConfig.mode === 'development') {
-                        jsonContent['content_security_policy'] = "script-src 'self' 'unsafe-eval'; object-src 'self'";
-                    }
-
-                    return JSON.stringify(jsonContent, null, 2);
-                },
-            },
-        ]),
-        new UglifyJSPlugin({
-            cache: true,
-            parallel: 4
-        }),
-        new OptimizeCSSAssetsPlugin({})
-    ],
-    performance: {
-        maxEntrypointSize: 400000
-    },
-};
-
-if (extensionConfig.mode === 'production') {
-    extensionConfig.plugins = (extensionConfig.plugins || []).concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"',
-            },
-        }),
-    ]);
+            })
+        )
+    } else {
+        config.plugins.push(
+            new ScriptExtHtmlWebpackPlugin({
+                async: [/runtime/],
+                defaultAttribute: 'defer',
+            })
+        )
+    }
+    return config
 }
 
-if (process.env.HMR === 'true') {
-    extensionConfig.plugins = (extensionConfig.plugins || []).concat([
-        new ChromeExtensionReloader(),
-    ]);
-}
-
-function transformHtml(content) {
-    return ejs.render(content.toString(), {
-        ...process.env,
-    });
-}
-
-module.exports = [
-    extensionConfig, commonModule
-];
+module.exports = configFunc

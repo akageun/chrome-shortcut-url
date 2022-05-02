@@ -1,1 +1,72 @@
-[{"alias":"google search","name":"GOOGLE","url":"https://www.google.com"},{"alias":"facebook fb","name":"FACEBOOK","url":"https://www.facebook.com/"},{"alias":"twitter tw","name":"Twitter","url":"https://twitter.com/"},{"alias":"linkedin lnin","name":"Linked In","url":"https://www.linkedin.com/"},{"alias":"github gb","name":"GitHub","url":"https://github.com"},{"alias":"github gb akageun","name":"GitHub akageun","url":"https://github.com/akageun"},{"alias":"google translate trans","name":"Google Translate","url":"https://translate.google.com/"},{"alias":"instagram","name":"Instagram","url":"https://www.instagram.com/"},{"alias":"naver","name":"Naver","url":"https://www.naver.com/"},{"alias":"gmail mail","name":"Gmail","url":"https://mail.google.com/mail/u/0/#inbox"},{"alias":"bootstrap bst","name":"Bootstrap","url":"https://getbootstrap.com/"},{"alias":"vuejs","name":"Vue","url":"https://vuejs.org/"},{"alias":"spring","name":"Spring","url":"https://spring.io/"},{"alias":"spring boot","name":"Spring Boot","url":"https://spring.io/guides/gs/spring-boot/"}]
+[
+  {
+    "alias": "google search",
+    "name": "GOOGLE",
+    "url": "https://www.google.com"
+  },
+  {
+    "alias": "facebook fb",
+    "name": "FACEBOOK",
+    "url": "https://www.facebook.com/"
+  },
+  {
+    "alias": "twitter tw",
+    "name": "Twitter",
+    "url": "https://twitter.com/"
+  },
+  {
+    "alias": "linkedin lnin",
+    "name": "Linked In",
+    "url": "https://www.linkedin.com/"
+  },
+  {
+    "alias": "github gb",
+    "name": "GitHub",
+    "url": "https://github.com"
+  },
+  {
+    "alias": "github gb akageun",
+    "name": "GitHub akageun",
+    "url": "https://github.com/akageun"
+  },
+  {
+    "alias": "google translate trans",
+    "name": "Google Translate",
+    "url": "https://translate.google.com/"
+  },
+  {
+    "alias": "instagram",
+    "name": "Instagram",
+    "url": "https://www.instagram.com/"
+  },
+  {
+    "alias": "naver",
+    "name": "Naver",
+    "url": "https://www.naver.com/"
+  },
+  {
+    "alias": "gmail mail",
+    "name": "Gmail",
+    "url": "https://mail.google.com/mail/u/0/#inbox"
+  },
+  {
+    "alias": "bootstrap bst",
+    "name": "Bootstrap",
+    "url": "https://getbootstrap.com/"
+  },
+  {
+    "alias": "vuejs",
+    "name": "Vue",
+    "url": "https://vuejs.org/"
+  },
+  {
+    "alias": "spring",
+    "name": "Spring",
+    "url": "https://spring.io/"
+  },
+  {
+    "alias": "spring boot",
+    "name": "Spring Boot",
+    "url": "https://spring.io/guides/gs/spring-boot/"
+  }
+]
