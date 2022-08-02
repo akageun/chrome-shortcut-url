@@ -2,7 +2,7 @@
   "name": "shortcut-url",
   "description": "With the this chrome extension, you can quick URL searches with shortcuts.",
   "homepage_url": "https://github.com/akageun/chrome-shortcut-url",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "manifest_version": 3,
   "icons": {
     "16": "assets/icons/export16px.png",

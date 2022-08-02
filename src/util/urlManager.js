@@ -22,11 +22,7 @@ class UrlManager {
             })
 
         });
-        searchedList.sort((a, b) => {
-            if (a.count > b.count) return -1;
-            if (a.count === b.count) return 0;
-            if (a.count < b.count) return 1;
-        });
+
         return searchedList;
     }
 
